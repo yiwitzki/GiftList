@@ -2,7 +2,6 @@ package com.lxsj.sdk.giftlist.views;
 
 import android.content.Context;
 import android.content.res.Configuration;
-import android.graphics.drawable.AnimationDrawable;
 import android.os.Handler;
 import android.os.Message;
 import android.support.v4.view.PagerAdapter;
@@ -18,7 +17,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-
+import android.widget.Toast;
 
 import com.lxsj.sdk.giftlist.R;
 import com.lxsj.sdk.giftlist.bean.GiftInfo;
@@ -43,7 +42,6 @@ public class GiftListLayout extends LinearLayout {
     private int[] ids;
     private LinearLayout[] animationLayout;
     private View[] pageView;
-    private AnimationDrawable anim = null;
     private View lastGiftView = null, currentGiftView = null;
     private int VIEWPAGER_ITEM_NUMBER = 16;
     private final int VIEWPAGER_EACH_PAGE_ITEM_NUMBER = 8;
@@ -126,12 +124,16 @@ public class GiftListLayout extends LinearLayout {
             @Override
             public void onClick(View v) {
                 if (currentGiftView != null)
-                    Log.d(TAG, "onClick: send button" + ((GiftInfo) currentGiftView.getTag(R.id.iv_gift)).getGiftName());
-                sendGiftBtn.setEnabled(false);
-                if (isCombo == true)
-                    count = 10;
-                doingNetwork();
-
+                {
+                    Toast.makeText(getContext(),"已发送动画",Toast.LENGTH_LONG).show();
+                    unSelectGiftView(currentGiftView);
+                    sendGiftBtn.setEnabled(false);
+                    if (isCombo == true)
+                        count = 10;
+                    doingNetwork();
+                }
+                else
+                    Toast.makeText(getContext(),"请选择动画",Toast.LENGTH_LONG).show();
             }
         });
     }
@@ -140,26 +142,32 @@ public class GiftListLayout extends LinearLayout {
         @Override
         public void onClick(View v) {
             currentGiftView = v;
-            if (lastGiftView != v && lastGiftView != null) {
-                if (anim != null)
-                    anim.stop();
-                Log.d(TAG, "onClick: " + v.getId());
-                ImageView giftChooseImageView = (ImageView) lastGiftView.findViewById(R.id.iv_gift_select_icon);
-                giftChooseImageView.setVisibility(View.INVISIBLE);
-                ((TextView)lastGiftView.findViewById(R.id.tv_giftName)).setTextColor(getResources().getColor(R.color.giftList_gift_name_color));
-                ((TextView)lastGiftView.findViewById(R.id.tv_giftPrice)).setTextColor(getResources().getColor(R.color.giftList_gift_price_color));
+            if (lastGiftView != v && lastGiftView != null)
+            {
+                unSelectGiftView(lastGiftView);
             }
-            AnimationDrawableImageView animationView = (AnimationDrawableImageView) v.findViewById(R.id.iv_gift);
-            ImageView giftChooseImageView = (ImageView) v.findViewById(R.id.iv_gift_select_icon);
-            giftChooseImageView.setVisibility(View.VISIBLE);
-            ((TextView)(v.findViewById(R.id.tv_giftName))).setTextColor(getResources().getColor(R.color.giftList_gift_selected_color));
-            ((TextView)v.findViewById(R.id.tv_giftPrice)).setTextColor(getResources().getColor(R.color.giftList_gift_selected_color));
-            //((TextView)v.findViewById(R.id.tv_giftPrice)).setTextColor(0XFF4F4F);
-            animationView.startFrameAnimation();
+            selectGiftView(v);
             lastGiftView = v;
         }
     }
-
+    private void unSelectGiftView(View giftView)
+    {
+        AnimationDrawableImageView animationView = (AnimationDrawableImageView) giftView.findViewById(R.id.iv_gift);
+        animationView.stopFrameAnimation();
+        ImageView giftChooseImageView = (ImageView) giftView.findViewById(R.id.iv_gift_select_icon);
+        giftChooseImageView.setVisibility(View.INVISIBLE);
+        ((TextView)giftView.findViewById(R.id.tv_giftName)).setTextColor(getResources().getColor(R.color.giftList_gift_name_color));
+        ((TextView)giftView.findViewById(R.id.tv_giftPrice)).setTextColor(getResources().getColor(R.color.giftList_gift_price_color));
+    }
+    private void selectGiftView(View giftView)
+    {
+        AnimationDrawableImageView animationView = (AnimationDrawableImageView) giftView.findViewById(R.id.iv_gift);
+        ImageView giftChooseImageView = (ImageView) giftView.findViewById(R.id.iv_gift_select_icon);
+        giftChooseImageView.setVisibility(View.VISIBLE);
+        ((TextView)(giftView.findViewById(R.id.tv_giftName))).setTextColor(getResources().getColor(R.color.giftList_gift_selected_color));
+        ((TextView)giftView.findViewById(R.id.tv_giftPrice)).setTextColor(getResources().getColor(R.color.giftList_gift_selected_color));
+        animationView.startFrameAnimation();
+    }
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
        // super.onConfigurationChanged(newConfig);
@@ -202,11 +210,13 @@ public class GiftListLayout extends LinearLayout {
     {
         //((ViewGroup)rootView).removeAllViews();
         TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
-        //viewPagerTableLayout = (TableLayout) LayoutInflater.from(getContext()).inflate(R.layout.gift_list_viewpager_layout, null, false);
-        TableLayout tableLayout = new TableLayout(getContext());
-        tableLayout.setLayoutParams(tableParams);
+        viewPagerTableLayout = (TableLayout) LayoutInflater.from(getContext()).inflate(R.layout.gift_list_viewpager_layout, null, false);
+        //TableLayout tableLayout = new TableLayout(getContext());
+
+        //viewPagerTableLayout.setLayoutParams(tableParams);
 
         TableRow tableRow1 = new TableRow(getContext());
+
         tableRow1.setLayoutParams(tableParams);
 
         TableRow tableRow2 = new TableRow(getContext());
@@ -222,9 +232,7 @@ public class GiftListLayout extends LinearLayout {
 
             int id1 = View.generateViewId();
             giftItemView1.setId(id1);
-
             ids[j] = id1;
-
             giftItemView1.setTag(R.id.iv_gift, giftList.get(j));
             giftItemView1.setOnClickListener(new AnimationLayoutListener());
             tableRow1.addView(giftItemView1);
@@ -233,9 +241,8 @@ public class GiftListLayout extends LinearLayout {
 
             View giftItemView2 = LayoutInflater.from(getContext()).inflate(R.layout.gift_item_portrait, null, true);
             giftItemView2.setLayoutParams(giftParams);
-
             int id2 = View.generateViewId();
-            giftItemView1.setId(id2);
+            giftItemView2.setId(id2);
             ids[j + 4] = id2;
             giftItemView2.setTag(R.id.iv_gift, giftList.get(j + 4));
             giftItemView2.setOnClickListener(new AnimationLayoutListener());
@@ -243,9 +250,9 @@ public class GiftListLayout extends LinearLayout {
             ((TextView) giftItemView2.findViewById(R.id.tv_giftPrice)).setText(String.valueOf(giftList.get(j + 4).getPrice() + "嗨米"));
             ((TextView) giftItemView2.findViewById(R.id.tv_giftName)).setText(String.valueOf(giftList.get(j + 4).getGiftName()));
         }
-        tableLayout.addView(tableRow1);
-        tableLayout.addView(tableRow2);
-        pageView[0] = tableLayout;
+        viewPagerTableLayout.addView(tableRow1);
+        viewPagerTableLayout.addView(tableRow2);
+        pageView[0] = viewPagerTableLayout;
         mLists.add(pageView[0]);
     }
     public void setLandscapeViewPager()

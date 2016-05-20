@@ -49,6 +49,8 @@ public class GiftListFragment extends DialogFragment
         rootView = new GiftListLayout(getActivity());
         initGiftList();
         rootView.setGiftView(list);
+        initImageView();
+
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setGravity(Gravity.LEFT | Gravity.BOTTOM);
         return rootView;
@@ -56,31 +58,28 @@ public class GiftListFragment extends DialogFragment
     private void initImageView()
     {
         int[] ids = rootView.getIds();
-        View[] pageview = rootView.getPageView();
+        View[] pageView = rootView.getPageView();
+
         for (int i = 0; i < ids.length; i++)
-            Log.d(TAG, "initImageView: " + ids[i]);
-        View vp = rootView.findViewById(R.id.gift_list_layout_viewpager);
-        if (vp.findViewById(R.id.gift_list_viewpager_table_layout) == null)
-            Log.d(TAG, "initImageView: table null");
-        else
-            Log.d(TAG, "initImageView: table not null");
-//            Log.d(TAG, "initImageView: null ");
-//        AnimationDrawableImageView im = (AnimationDrawableImageView)(vp.findViewById(ids[7]).findViewById(R.id.iv_gift_portrait));
-//        im.setAnimationDrawables(new RegisterAnimationDrawables() {
-//            @Override
-//            public List<Bitmap> initFavorDrawables() {
-//                Log.d(TAG, "initFavorDrawables: ");
-//                ArrayList<Bitmap> giftAnimation = new ArrayList<>();
-//                for (int i = 1; i < 8; i++)
-//                {
-//                    StringBuilder sb = new StringBuilder();
-//                    sb.append("file://").append(Environment.getExternalStorageDirectory().getPath()).append("/cat").append(i).append(".png");
-//                    Bitmap bitmap = getLocalOrNetBitmap(sb.toString());
-//                    giftAnimation.add(bitmap);
-//                }
-//                return giftAnimation;
-//            }
-//        });
+        {
+            View giftItem = pageView[0].findViewById(ids[i]);
+            AnimationDrawableImageView im = (AnimationDrawableImageView)(giftItem.findViewById(R.id.iv_gift));
+            im.setAnimationDrawables(new RegisterAnimationDrawables() {
+                @Override
+                public List<Bitmap> initFavorDrawables() {
+                    Log.d(TAG, "initFavorDrawables: ");
+                    ArrayList<Bitmap> giftAnimation = new ArrayList<>();
+                    for (int i = 1; i < 8; i++)
+                    {
+                        StringBuilder sb = new StringBuilder();
+                        sb.append("file://").append(Environment.getExternalStorageDirectory().getPath()).append("/cat").append(i).append(".png");
+                        Bitmap bitmap = getLocalOrNetBitmap(sb.toString());
+                        giftAnimation.add(bitmap);
+                    }
+                    return giftAnimation;
+                }
+            });
+        }
     }
     private void initGiftList()
     {
@@ -96,7 +95,6 @@ public class GiftListFragment extends DialogFragment
     public void onResume()
     {
         super.onResume();
-        initImageView();
         getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }

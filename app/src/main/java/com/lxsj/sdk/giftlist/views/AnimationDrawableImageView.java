@@ -61,4 +61,11 @@ public class AnimationDrawableImageView extends ImageView
             giftAnimation.start();
         }
     }
+    public void stopFrameAnimation()
+    {
+        if (giftAnimation == null)
+            return;
+        else
+            giftAnimation.stop();
+    }
 }
