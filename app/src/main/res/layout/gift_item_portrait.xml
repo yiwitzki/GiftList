@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center_horizontal"
+    android:gravity="center_horizontal">
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+        <com.lxsj.sdk.giftlist.views.AnimationDrawableImageView
+            android:id="@+id/iv_gift"
+            android:layout_marginTop="14dp"
+            android:layout_marginLeft="25dp"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@drawable/cat1" />
+        <ImageView
+            android:id="@+id/iv_gift_select_icon"
+            android:visibility="invisible"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toRightOf="@id/iv_gift"
+            android:layout_alignTop="@id/iv_gift"
+            android:src="@drawable/gift_choose" />
+        <TextView
+            android:id="@+id/tv_giftName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/iv_gift"
+            android:layout_marginLeft="35dp"
+            android:gravity="center"
+            android:text="求抱抱"
+            android:layout_marginTop="6dp"
+            android:textSize="10sp"
+            android:textColor="@android:color/white"/>
+        <TextView
+            android:id="@+id/tv_giftPrice"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="35dp"
+            android:text="3 M币"
+            android:layout_marginTop="5dp"
+            android:layout_below="@id/tv_giftName"
+            android:textSize="10sp"
+            android:textColor="#ffda3d"/>
+    </RelativeLayout>
+
+
+</LinearLayout>

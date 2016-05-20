@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#cc000000">
+
+    <com.lxsj.sdk.giftlist.views.WrapContentHeightViewPager
+        android:id="@+id/gift_list_layout_viewpager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="54dp">
+        <ImageView
+            android:id="@+id/image_icon"
+            android:layout_width="25dp"
+            android:layout_height="25dp"
+            android:layout_centerVertical="true"
+            android:layout_marginLeft="10dp"
+            android:layout_marginBottom="13dp"
+            android:background="@drawable/logo_haimi"/>
+        <TextView
+            android:id="@+id/tv_money_balance"
+            android:layout_toRightOf="@id/image_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="223"
+            android:layout_centerVertical="true"
+            android:textColor="@android:color/white"
+            android:textSize="14sp"
+            android:gravity="center"
+            android:layout_marginStart="10.0dip"
+            android:drawablePadding="5.0dip" />
+        <TextView
+            android:id="@+id/tv_gift_pay"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="13dp"
+            android:layout_marginBottom="18dp"
+            android:text="充值"
+            android:layout_toEndOf="@id/tv_money_balance"
+            android:textColor="#ff5433"
+            android:gravity="center"
+            android:layout_centerVertical="true"/>
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/gift_enter"
+            android:layout_toRightOf="@id/tv_gift_pay"
+            android:layout_alignBottom="@id/tv_gift_pay"
+            android:layout_alignTop="@id/tv_gift_pay"/>
+
+        <!--<com.lxsj.sdk.giftlist.views.ViewPagerIndicatorView-->
+            <!--android:id="@+id/viewpager_indicator"-->
+            <!--android:layout_centerHorizontal="true"-->
+            <!--android:layout_width="40dp"-->
+            <!--android:layout_height="40dp"-->
+            <!--android:layout_marginTop="10dp"-->
+            <!--android:visibility="gone"-->
+            <!--custom:dotNumber = "2" />-->
+        
+        <Button
+            android:id="@+id/tv_gift_send"
+            android:layout_width="60dp"
+            android:layout_height="30dp"
+            android:background="@drawable/gift_send_btn_selector"
+            android:gravity="center"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="10dp"
+            android:layout_marginBottom="10dp"
+            android:layout_marginTop="14dp"
+            android:textColor="@android:color/white"
+            android:text="发送"
+            android:textSize="16sp"/>
+
+    </RelativeLayout>
+
+
+</LinearLayout>
