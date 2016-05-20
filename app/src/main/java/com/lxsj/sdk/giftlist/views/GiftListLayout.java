@@ -36,6 +36,7 @@ public class GiftListLayout extends LinearLayout {
     private List<View> mLists;
     private List<GiftInfo> giftList;
     private WrapContentHeightViewPager viewPager;
+    private PagerAdapter giftAdapter;
     //private ViewPagerIndicatorView indicatorView;
     private Button sendGiftBtn;
     private int[] ids;
@@ -156,7 +157,21 @@ public class GiftListLayout extends LinearLayout {
 
     @Override
     protected void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
+       // super.onConfigurationChanged(newConfig);
+        ((ViewGroup)rootView.findViewById(R.id.gift_list_layout_viewpager)).removeAllViews();
+        mLists.clear();
+        ids = new int[VIEWPAGER_EACH_PAGE_ITEM_NUMBER];
+        pageView = new View[VIEWPAGER_ITEM_NUMBER / VIEWPAGER_EACH_PAGE_ITEM_NUMBER];
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+            Log.d(TAG, "onConfigurationChanged: ORIENTATION_LANDSCAPE");
+            setLandscapeViewPager();
+        }
+        else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
+            setPortraitViewPager();
+        }
+        giftAdapter.notifyDataSetChanged();
     }
 
     public int[] getIds() {
@@ -168,86 +183,99 @@ public class GiftListLayout extends LinearLayout {
         ids = new int[VIEWPAGER_EACH_PAGE_ITEM_NUMBER];
         pageView = new View[VIEWPAGER_ITEM_NUMBER / VIEWPAGER_EACH_PAGE_ITEM_NUMBER];
 
-        for (int i = 0; i < pageView.length; i++) {
-            if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE) {
-                TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
-
-                TableLayout tableLayout = new TableLayout(getContext());
-                tableLayout.setLayoutParams(tableParams);
-
-                TableRow tableRow = new TableRow(getContext());
-                tableRow.setLayoutParams(tableParams);
-
-                TableRow.LayoutParams giftParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-                giftParams.weight = 1;
-                for (int j = 0; j < VIEWPAGER_EACH_PAGE_ITEM_NUMBER; j++) {
-                    View giftItemView = LayoutInflater.from(getContext()).inflate(R.layout.gift_item_landscape, null, false);
-                    giftItemView.setLayoutParams(giftParams);
-                    int id = View.generateViewId();
-                    giftItemView.setId(id);
-                    ids[j] = id;
-                    giftItemView.setTag(R.id.iv_gift, giftList.get(j));
-                    giftItemView.setOnClickListener(new AnimationLayoutListener());
-                    ((TextView) giftItemView.findViewById(R.id.tv_giftPrice)).setText(String.valueOf(giftList.get(j).getPrice()) + "嗨米");
-                    ((TextView) giftItemView.findViewById(R.id.tv_giftName)).setText(String.valueOf(giftList.get(j).getGiftName()));
-                    tableRow.addView(giftItemView);
-                }
-                tableLayout.addView(tableRow);
-                pageView[i] = tableLayout;
-            } else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
-                TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
-
-                TableLayout tableLayout = new TableLayout(getContext());
-                tableLayout.setLayoutParams(tableParams);
-
-                TableRow tableRow1 = new TableRow(getContext());
-                tableRow1.setLayoutParams(tableParams);
-
-                TableRow tableRow2 = new TableRow(getContext());
-                tableRow2.setLayoutParams(tableParams);
-
-
-                TableRow.LayoutParams giftParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
-                giftParams.weight = 1;
-                Log.d(TAG, "initViewPager: " + giftList.size());
-                for (int j = 0; j < VIEWPAGER_EACH_PAGE_ITEM_NUMBER / 2; j++) {
-                    View giftItemView1 = LayoutInflater.from(getContext()).inflate(R.layout.gift_item_portrait, null, false);
-                    giftItemView1.setLayoutParams(giftParams);
-
-                    int id1 = View.generateViewId();
-                    giftItemView1.setId(id1);
-
-                    ids[j] = id1;
-
-                    giftItemView1.setTag(R.id.iv_gift, giftList.get(j));
-                    giftItemView1.setOnClickListener(new AnimationLayoutListener());
-                    tableRow1.addView(giftItemView1);
-                    ((TextView) giftItemView1.findViewById(R.id.tv_giftPrice)).setText(String.valueOf(giftList.get(j).getPrice() + "嗨米"));
-                    ((TextView) giftItemView1.findViewById(R.id.tv_giftName)).setText(String.valueOf(giftList.get(j).getGiftName()));
-
-                    View giftItemView2 = LayoutInflater.from(getContext()).inflate(R.layout.gift_item_portrait, null, false);
-                    giftItemView2.setLayoutParams(giftParams);
-
-                    int id2 = View.generateViewId();
-                    giftItemView1.setId(id2);
-                    ids[j + 4] = id2;
-                    giftItemView2.setTag(R.id.iv_gift, giftList.get(j + 4));
-                    giftItemView2.setOnClickListener(new AnimationLayoutListener());
-                    tableRow2.addView(giftItemView2);
-                    ((TextView) giftItemView2.findViewById(R.id.tv_giftPrice)).setText(String.valueOf(giftList.get(j + 4).getPrice() + "嗨米"));
-                    ((TextView) giftItemView2.findViewById(R.id.tv_giftName)).setText(String.valueOf(giftList.get(j + 4).getGiftName()));
-                }
-                tableLayout.addView(tableRow1);
-                tableLayout.addView(tableRow2);
-                pageView[i] = tableLayout;
-            }
-            Log.d(TAG, "initViewPager: " + pageView.length);
-            mLists.add(pageView[i]);
+        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_LANDSCAPE)
+        {
+            setLandscapeViewPager();
         }
+        else if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT)
+        {
+            setPortraitViewPager();
+        }
+        Log.d(TAG, "initViewPager: " + pageView.length);
+    }
+    private void setPortraitViewPager()
+    {
+        //((ViewGroup)rootView).removeAllViews();
+        TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+
+        TableLayout tableLayout = new TableLayout(getContext());
+        tableLayout.setLayoutParams(tableParams);
+
+        TableRow tableRow1 = new TableRow(getContext());
+        tableRow1.setLayoutParams(tableParams);
+
+        TableRow tableRow2 = new TableRow(getContext());
+        tableRow2.setLayoutParams(tableParams);
+
+
+        TableRow.LayoutParams giftParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        giftParams.weight = 1;
+        Log.d(TAG, "initViewPager: " + giftList.size());
+        for (int j = 0; j < VIEWPAGER_EACH_PAGE_ITEM_NUMBER / 2; j++) {
+            View giftItemView1 = LayoutInflater.from(getContext()).inflate(R.layout.gift_item_portrait, null, false);
+            giftItemView1.setLayoutParams(giftParams);
+
+            int id1 = View.generateViewId();
+            giftItemView1.setId(id1);
+
+            ids[j] = id1;
+
+            giftItemView1.setTag(R.id.iv_gift, giftList.get(j));
+            giftItemView1.setOnClickListener(new AnimationLayoutListener());
+            tableRow1.addView(giftItemView1);
+            ((TextView) giftItemView1.findViewById(R.id.tv_giftPrice)).setText(String.valueOf(giftList.get(j).getPrice() + "嗨米"));
+            ((TextView) giftItemView1.findViewById(R.id.tv_giftName)).setText(String.valueOf(giftList.get(j).getGiftName()));
+
+            View giftItemView2 = LayoutInflater.from(getContext()).inflate(R.layout.gift_item_portrait, null, false);
+            giftItemView2.setLayoutParams(giftParams);
+
+            int id2 = View.generateViewId();
+            giftItemView1.setId(id2);
+            ids[j + 4] = id2;
+            giftItemView2.setTag(R.id.iv_gift, giftList.get(j + 4));
+            giftItemView2.setOnClickListener(new AnimationLayoutListener());
+            tableRow2.addView(giftItemView2);
+            ((TextView) giftItemView2.findViewById(R.id.tv_giftPrice)).setText(String.valueOf(giftList.get(j + 4).getPrice() + "嗨米"));
+            ((TextView) giftItemView2.findViewById(R.id.tv_giftName)).setText(String.valueOf(giftList.get(j + 4).getGiftName()));
+        }
+        tableLayout.addView(tableRow1);
+        tableLayout.addView(tableRow2);
+        pageView[0] = tableLayout;
+        mLists.add(pageView[0]);
+
+    }
+    public void setLandscapeViewPager()
+    {
+        //((ViewGroup)rootView).removeAllViews();
+        TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
+
+        TableLayout tableLayout = new TableLayout(getContext());
+        tableLayout.setLayoutParams(tableParams);
+
+        TableRow tableRow = new TableRow(getContext());
+        tableRow.setLayoutParams(tableParams);
+
+        TableRow.LayoutParams giftParams = new TableRow.LayoutParams(TableRow.LayoutParams.WRAP_CONTENT, TableRow.LayoutParams.WRAP_CONTENT);
+        giftParams.weight = 1;
+        for (int j = 0; j < VIEWPAGER_EACH_PAGE_ITEM_NUMBER; j++) {
+            View giftItemView = LayoutInflater.from(getContext()).inflate(R.layout.gift_item_landscape, null, false);
+            giftItemView.setLayoutParams(giftParams);
+            int id = View.generateViewId();
+            giftItemView.setId(id);
+            ids[j] = id;
+            giftItemView.setTag(R.id.iv_gift, giftList.get(j));
+            giftItemView.setOnClickListener(new AnimationLayoutListener());
+            ((TextView) giftItemView.findViewById(R.id.tv_giftPrice)).setText(String.valueOf(giftList.get(j).getPrice()) + "嗨米");
+            ((TextView) giftItemView.findViewById(R.id.tv_giftName)).setText(String.valueOf(giftList.get(j).getGiftName()));
+            tableRow.addView(giftItemView);
+        }
+        tableLayout.addView(tableRow);
+        pageView[0] = tableLayout;
+        mLists.add(pageView[0]);
     }
 
     private void setupAdapter() {
-        PagerAdapter giftAdapter = new PagerAdapter() {
+        giftAdapter = new PagerAdapter() {
             @Override
             public int getCount() {
                 return mLists.size();
@@ -262,7 +290,9 @@ public class GiftListLayout extends LinearLayout {
             public void destroyItem(ViewGroup container, int position, Object object) {
                 container.removeView(mLists.get(position));
             }
-
+            public int getItemPosition(Object object) {
+                return POSITION_NONE;
+            }
             @Override
             public Object instantiateItem(ViewGroup container, int position) {
                 container.addView(mLists.get(position));
@@ -270,6 +300,7 @@ public class GiftListLayout extends LinearLayout {
             }
         };
         viewPager.setAdapter(giftAdapter);
+
     }
 
     TimerTask task = new TimerTask() {

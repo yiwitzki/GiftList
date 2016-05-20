@@ -8,6 +8,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.support.annotation.Nullable;
+import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -59,8 +60,8 @@ public class GiftListFragment extends DialogFragment
         for (int i = 0; i < ids.length; i++)
             Log.d(TAG, "initImageView: " + ids[i]);
         View vp = rootView.findViewById(R.id.gift_list_layout_viewpager);
-        if (vp.findViewById(ids[0]) == null)
-            Log.d(TAG, "initImageView: null ");
+//        if (vp.findViewById(ids[0]) == null)
+//            Log.d(TAG, "initImageView: null ");
 //        AnimationDrawableImageView im = (AnimationDrawableImageView)(vp.findViewById(ids[7]).findViewById(R.id.iv_gift_portrait));
 //        im.setAnimationDrawables(new RegisterAnimationDrawables() {
 //            @Override
