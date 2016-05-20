@@ -37,6 +37,7 @@ public class GiftListLayout extends LinearLayout {
     private List<GiftInfo> giftList;
     private WrapContentHeightViewPager viewPager;
     private PagerAdapter giftAdapter;
+    private TableLayout viewPagerTableLayout;
     //private ViewPagerIndicatorView indicatorView;
     private Button sendGiftBtn;
     private int[] ids;
@@ -145,11 +146,15 @@ public class GiftListLayout extends LinearLayout {
                 Log.d(TAG, "onClick: " + v.getId());
                 ImageView giftChooseImageView = (ImageView) lastGiftView.findViewById(R.id.iv_gift_select_icon);
                 giftChooseImageView.setVisibility(View.INVISIBLE);
-                //lastGiftView.setBackgroundResource(R.drawable.bg_gift_grid_default);
+                ((TextView)lastGiftView.findViewById(R.id.tv_giftName)).setTextColor(getResources().getColor(R.color.giftList_gift_name_color));
+                ((TextView)lastGiftView.findViewById(R.id.tv_giftPrice)).setTextColor(getResources().getColor(R.color.giftList_gift_price_color));
             }
             AnimationDrawableImageView animationView = (AnimationDrawableImageView) v.findViewById(R.id.iv_gift);
             ImageView giftChooseImageView = (ImageView) v.findViewById(R.id.iv_gift_select_icon);
             giftChooseImageView.setVisibility(View.VISIBLE);
+            ((TextView)(v.findViewById(R.id.tv_giftName))).setTextColor(getResources().getColor(R.color.giftList_gift_selected_color));
+            ((TextView)v.findViewById(R.id.tv_giftPrice)).setTextColor(getResources().getColor(R.color.giftList_gift_selected_color));
+            //((TextView)v.findViewById(R.id.tv_giftPrice)).setTextColor(0XFF4F4F);
             animationView.startFrameAnimation();
             lastGiftView = v;
         }
@@ -197,7 +202,7 @@ public class GiftListLayout extends LinearLayout {
     {
         //((ViewGroup)rootView).removeAllViews();
         TableLayout.LayoutParams tableParams = new TableLayout.LayoutParams(TableLayout.LayoutParams.MATCH_PARENT, TableLayout.LayoutParams.WRAP_CONTENT);
-
+        //viewPagerTableLayout = (TableLayout) LayoutInflater.from(getContext()).inflate(R.layout.gift_list_viewpager_layout, null, false);
         TableLayout tableLayout = new TableLayout(getContext());
         tableLayout.setLayoutParams(tableParams);
 
@@ -212,7 +217,7 @@ public class GiftListLayout extends LinearLayout {
         giftParams.weight = 1;
         Log.d(TAG, "initViewPager: " + giftList.size());
         for (int j = 0; j < VIEWPAGER_EACH_PAGE_ITEM_NUMBER / 2; j++) {
-            View giftItemView1 = LayoutInflater.from(getContext()).inflate(R.layout.gift_item_portrait, null, false);
+            View giftItemView1 = LayoutInflater.from(getContext()).inflate(R.layout.gift_item_portrait, null, true);
             giftItemView1.setLayoutParams(giftParams);
 
             int id1 = View.generateViewId();
@@ -226,7 +231,7 @@ public class GiftListLayout extends LinearLayout {
             ((TextView) giftItemView1.findViewById(R.id.tv_giftPrice)).setText(String.valueOf(giftList.get(j).getPrice() + "嗨米"));
             ((TextView) giftItemView1.findViewById(R.id.tv_giftName)).setText(String.valueOf(giftList.get(j).getGiftName()));
 
-            View giftItemView2 = LayoutInflater.from(getContext()).inflate(R.layout.gift_item_portrait, null, false);
+            View giftItemView2 = LayoutInflater.from(getContext()).inflate(R.layout.gift_item_portrait, null, true);
             giftItemView2.setLayoutParams(giftParams);
 
             int id2 = View.generateViewId();
@@ -242,7 +247,6 @@ public class GiftListLayout extends LinearLayout {
         tableLayout.addView(tableRow2);
         pageView[0] = tableLayout;
         mLists.add(pageView[0]);
-
     }
     public void setLandscapeViewPager()
     {
@@ -318,8 +322,12 @@ public class GiftListLayout extends LinearLayout {
                         count = 10;
                         isCombo = false;
                         sendGiftBtn.setText("发送");
-                    } else if (isCombo && count >= 0)
-                        sendGiftBtn.setText("连击" + String.valueOf(count--));
+                    }
+                    else if (isCombo && count >= 0)
+                    {
+                        String btnText = "连击(" + String.valueOf(count--) + ")";
+                        sendGiftBtn.setText(btnText);
+                    }
                     break;
             }
             super.handleMessage(msg);

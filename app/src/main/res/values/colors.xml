@@ -3,4 +3,7 @@
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
     <color name="colorAccent">#FF4081</color>
+    <color name="giftList_gift_selected_color">#FF4F4F</color>
+    <color name="giftList_gift_name_color">#FFFFFF</color>
+    <color name="giftList_gift_price_color">#FFDA3D</color>
 </resources>

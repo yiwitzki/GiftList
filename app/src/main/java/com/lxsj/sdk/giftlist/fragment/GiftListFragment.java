@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
+import android.widget.TableLayout;
 
 
 import com.lxsj.sdk.giftlist.R;
@@ -48,7 +49,6 @@ public class GiftListFragment extends DialogFragment
         rootView = new GiftListLayout(getActivity());
         initGiftList();
         rootView.setGiftView(list);
-        initImageView();
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         getDialog().getWindow().setGravity(Gravity.LEFT | Gravity.BOTTOM);
         return rootView;
@@ -60,7 +60,10 @@ public class GiftListFragment extends DialogFragment
         for (int i = 0; i < ids.length; i++)
             Log.d(TAG, "initImageView: " + ids[i]);
         View vp = rootView.findViewById(R.id.gift_list_layout_viewpager);
-//        if (vp.findViewById(ids[0]) == null)
+        if (vp.findViewById(R.id.gift_list_viewpager_table_layout) == null)
+            Log.d(TAG, "initImageView: table null");
+        else
+            Log.d(TAG, "initImageView: table not null");
 //            Log.d(TAG, "initImageView: null ");
 //        AnimationDrawableImageView im = (AnimationDrawableImageView)(vp.findViewById(ids[7]).findViewById(R.id.iv_gift_portrait));
 //        im.setAnimationDrawables(new RegisterAnimationDrawables() {
@@ -93,6 +96,7 @@ public class GiftListFragment extends DialogFragment
     public void onResume()
     {
         super.onResume();
+        initImageView();
         getDialog().getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         getDialog().getWindow().setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
     }

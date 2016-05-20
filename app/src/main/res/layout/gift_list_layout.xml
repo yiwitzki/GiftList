@@ -64,7 +64,7 @@
         
         <Button
             android:id="@+id/tv_gift_send"
-            android:layout_width="60dp"
+            android:layout_width="70dp"
             android:layout_height="30dp"
             android:background="@drawable/gift_send_btn_selector"
             android:gravity="center"
