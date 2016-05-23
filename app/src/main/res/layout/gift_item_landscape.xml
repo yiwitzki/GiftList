@@ -16,8 +16,7 @@
             android:layout_marginLeft="25dp"
             android:layout_width="40dp"
             android:layout_height="40dp"
-            android:gravity="center"
-            android:background="@drawable/cat1" />
+            android:gravity="center" />
 
         <TextView
             android:id="@+id/tv_giftName"

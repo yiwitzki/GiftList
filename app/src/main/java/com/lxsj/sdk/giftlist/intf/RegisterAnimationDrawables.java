@@ -9,5 +9,5 @@ import java.util.List;
  */
 public interface RegisterAnimationDrawables
 {
-    public List<Bitmap> initFavorDrawables();
+    String[] initFavorDrawables();
 }

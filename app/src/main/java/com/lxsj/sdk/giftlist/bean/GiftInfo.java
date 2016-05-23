@@ -8,11 +8,15 @@ public class GiftInfo
     private int ID;
     private String giftName;
     private int price;
+    private String imageUrl;
+    private String imageDocPath;
 
-    public GiftInfo(int ID, String giftName, int price) {
+    public GiftInfo(int ID, String giftName, int price, String imageUrl, String imageDocPath) {
         this.ID = ID;
         this.giftName = giftName;
         this.price = price;
+        this.imageUrl = imageUrl;
+        this.imageDocPath = imageDocPath;
     }
 
     public int getID() {
@@ -25,5 +29,13 @@ public class GiftInfo
 
     public int getPrice() {
         return price;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public String getImageDocPath() {
+        return imageDocPath;
     }
 }
