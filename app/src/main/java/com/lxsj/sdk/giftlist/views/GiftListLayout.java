@@ -27,9 +27,7 @@ import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
-/**
- * Created by TP on 16/5/19.
- */
+
 public class GiftListLayout extends LinearLayout {
     private View rootView;
     private List<View> mLists;
@@ -164,7 +162,7 @@ public class GiftListLayout extends LinearLayout {
             int id1 = View.generateViewId();
             giftItemView1.setId(id1);
             ids[j] = id1;
-            giftItemView1.setTag(R.id.iv_gift, giftList.get(j));
+            giftItemView1.setTag(giftList.get(j));
             giftItemView1.setOnClickListener(new AnimationLayoutListener());
             tableRow1.addView(giftItemView1);
             ((TextView) giftItemView1.findViewById(R.id.tv_giftPrice)).setText(String.valueOf(giftList.get(j).getPrice() + "嗨米"));
@@ -176,7 +174,7 @@ public class GiftListLayout extends LinearLayout {
             int id2 = View.generateViewId();
             giftItemView2.setId(id2);
             ids[j + 4] = id2;
-            giftItemView2.setTag(R.id.iv_gift, giftList.get(j + 4));
+            giftItemView2.setTag(giftList.get(j + 4));
             giftItemView2.setOnClickListener(new AnimationLayoutListener());
             tableRow2.addView(giftItemView2);
             ((TextView) giftItemView2.findViewById(R.id.tv_giftPrice)).setText(String.valueOf(giftList.get(j + 4).getPrice() + "嗨米"));
@@ -211,7 +209,7 @@ public class GiftListLayout extends LinearLayout {
             int id = View.generateViewId();
             giftItem.setId(id);
             ids[j] = id;
-            giftItem.setTag(R.id.iv_gift, giftList.get(j));
+            giftItem.setTag(giftList.get(j));
             giftItem.setOnClickListener(new AnimationLayoutListener());
             ((TextView) giftItem.findViewById(R.id.tv_giftPrice)).setText(String.valueOf(giftList.get(j).getPrice()) + "嗨米");
             ((TextView) giftItem.findViewById(R.id.tv_giftName)).setText(String.valueOf(giftList.get(j).getGiftName()));
@@ -225,7 +223,7 @@ public class GiftListLayout extends LinearLayout {
 
     private void doingNetwork() {
         startCount();
-        lastSendGiftId = ((GiftInfo)currentGiftView.getTag(R.id.iv_gift)).getID();
+        lastSendGiftId = ((GiftInfo)currentGiftView.getTag()).getID();
     }
 
     private void setUpListener() {
@@ -272,7 +270,7 @@ public class GiftListLayout extends LinearLayout {
             if (lastGiftView != v && lastGiftView != null)
             {
                 unSelectGiftView(lastGiftView);
-                int currentSendGiftId = ((GiftInfo)currentGiftView.getTag(R.id.iv_gift)).getID();
+                int currentSendGiftId = ((GiftInfo)currentGiftView.getTag()).getID();
                 if (lastSendGiftId == currentSendGiftId)
                     isCombo = true;
                 else

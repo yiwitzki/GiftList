@@ -1,8 +1,6 @@
 package com.lxsj.sdk.giftlist.fragment;
 
 import android.app.DialogFragment;
-import android.content.res.Configuration;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -19,8 +17,6 @@ import com.lxsj.sdk.giftlist.bean.GiftInfo;
 import com.lxsj.sdk.giftlist.intf.RegisterAnimationDrawables;
 import com.lxsj.sdk.giftlist.views.AnimationDrawableImageView;
 import com.lxsj.sdk.giftlist.views.GiftListLayout;
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.List;
 
