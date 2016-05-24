@@ -20,7 +20,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.lxsj.sdk.giftlist.R;
-import com.lxsj.sdk.giftlist.bean.GiftInfo;
+import com.lxsj.sdk.giftlist.bean.GiftItemInfo;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,7 +31,7 @@ import java.util.TimerTask;
 public class GiftListLayout extends LinearLayout {
     private View rootView;
     private List<View> mLists;
-    private List<GiftInfo> giftList;
+    private List<GiftItemInfo> giftList;
     private WrapContentHeightViewPager viewPager;
     private PagerAdapter giftAdapter;
     //private ViewPagerIndicatorView indicatorView;
@@ -66,7 +66,7 @@ public class GiftListLayout extends LinearLayout {
         initViews();
     }
 
-    public void setGiftView(List<GiftInfo> giftList) {
+    public void setGiftView(List<GiftItemInfo> giftList) {
         this.giftList = giftList;
         VIEWPAGER_ITEM_NUMBER = giftList.size();
         initViewPager();
@@ -223,7 +223,7 @@ public class GiftListLayout extends LinearLayout {
 
     private void doingNetwork() {
         startCount();
-        lastSendGiftId = ((GiftInfo)currentGiftView.getTag()).getID();
+        lastSendGiftId = ((GiftItemInfo)currentGiftView.getTag()).getID();
     }
 
     private void setUpListener() {
@@ -270,7 +270,7 @@ public class GiftListLayout extends LinearLayout {
             if (lastGiftView != v && lastGiftView != null)
             {
                 unSelectGiftView(lastGiftView);
-                int currentSendGiftId = ((GiftInfo)currentGiftView.getTag()).getID();
+                int currentSendGiftId = ((GiftItemInfo)currentGiftView.getTag()).getID();
                 if (lastSendGiftId == currentSendGiftId)
                     isCombo = true;
                 else

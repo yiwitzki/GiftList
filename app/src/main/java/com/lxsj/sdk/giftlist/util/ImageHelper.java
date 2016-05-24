@@ -20,6 +20,8 @@ import java.net.URL;
  */
 public class ImageHelper
 {
+    public static String dirPath = Environment.getExternalStorageDirectory().getPath() + "/testPic/tp/";
+
     public static String getKeyFromUrl(String url) {
         String fileName = "";
         if (url.startsWith("http://") || url.startsWith("https://")) {
@@ -68,7 +70,6 @@ public class ImageHelper
     }
     private static void saveFile(Bitmap bm, String fileName) throws IOException
     {
-        String dirPath = Environment.getExternalStorageDirectory().getPath() + "/testPic/tp/";
         File dirFile = new File(dirPath);
         if(!dirFile.exists()){
             dirFile.mkdir();

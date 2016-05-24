@@ -3,7 +3,7 @@ package com.lxsj.sdk.giftlist.bean;
 /**
  * Created by TP on 16/5/19.
  */
-public class GiftInfo
+public class GiftItemInfo
 {
     private int ID;
     private String giftName;
@@ -11,7 +11,7 @@ public class GiftInfo
     private String imageUrl;
     private String imageDocPath;
 
-    public GiftInfo(int ID, String giftName, int price, String imageUrl, String imageDocPath) {
+    public GiftItemInfo(int ID, String giftName, int price, String imageUrl, String imageDocPath) {
         this.ID = ID;
         this.giftName = giftName;
         this.price = price;

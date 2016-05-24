@@ -13,7 +13,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 
 import com.lxsj.sdk.giftlist.R;
-import com.lxsj.sdk.giftlist.bean.GiftInfo;
+import com.lxsj.sdk.giftlist.bean.GiftItemInfo;
 import com.lxsj.sdk.giftlist.intf.RegisterAnimationDrawables;
 import com.lxsj.sdk.giftlist.views.AnimationDrawableImageView;
 import com.lxsj.sdk.giftlist.views.GiftListLayout;
@@ -26,7 +26,7 @@ import java.util.List;
 public class GiftListFragment extends DialogFragment
 {
     private GiftListLayout rootView;
-    private List<GiftInfo> mList;
+    private List<GiftItemInfo> mList;
     private int animationDrawableIndex = 0;
     private final String TAG = "GiftListFragment";
     @Nullable
@@ -62,7 +62,7 @@ public class GiftListFragment extends DialogFragment
             });
         }
     }
-    public void setGiftData(List<GiftInfo> listData)
+    public void setGiftData(List<GiftItemInfo> listData)
     {
         this.mList = listData;
     }

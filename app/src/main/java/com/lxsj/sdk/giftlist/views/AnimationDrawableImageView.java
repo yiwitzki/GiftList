@@ -13,7 +13,6 @@ import com.lxsj.sdk.giftlist.util.ImageHelper;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 
 /**
  * Created by TP on 16/5/17.
@@ -38,10 +37,6 @@ public class AnimationDrawableImageView extends ImageView {
     }
 
     public RegisterAnimationDrawables registerFavorDrawables = null;
-
-    DisplayImageOptions options = new DisplayImageOptions.Builder()
-            .cacheInMemory(true).cacheOnDisk(true)
-            .bitmapConfig(Bitmap.Config.RGB_565).build();
 
     public void setAnimationDrawables(RegisterAnimationDrawables registerFavorDrawables) {
         this.registerFavorDrawables = registerFavorDrawables;
@@ -70,7 +65,7 @@ public class AnimationDrawableImageView extends ImageView {
     public void showStaticPic(String url)
     {
         String fileName = ImageHelper.getKeyFromUrl(url);
-        String filePath = Environment.getExternalStorageDirectory().getPath() + fileName;
+        String filePath = ImageHelper.dirPath + fileName;
         File file = new File(filePath);
         if (file.exists())
         {
