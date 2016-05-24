@@ -47,7 +47,20 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_below="@id/buttonLayout">
+        <com.lxsj.sdk.giftlist.views.TranslateAnimationView
+            android:id="@+id/translate_animation_view1"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+        </com.lxsj.sdk.giftlist.views.TranslateAnimationView>
+        <com.lxsj.sdk.giftlist.views.TranslateAnimationView
+            android:id="@+id/translate_animation_view2"
+            android:layout_marginTop="200dp"
+            android:visibility="gone"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
 
+        </com.lxsj.sdk.giftlist.views.TranslateAnimationView>
     </RelativeLayout>
 
 

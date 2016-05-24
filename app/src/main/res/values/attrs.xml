@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <declare-styleable name="imagetext">
+        <attr name="text" format="reference|string" />
+        <attr name="image" format="reference" />
+    </declare-styleable>
+    <declare-styleable name="RedTipTextView">
+        <attr name="redTipsVisibility">
+            <enum name="invisible" value="0"></enum>
+            <enum name="visible" value="1"></enum>
+            <enum name="gone" value="2"></enum>
+        </attr>
+    </declare-styleable>
+
+    <declare-styleable name="RoundRelativeLayout">  
+        <attr name="custom_background" format="reference"></attr>  
+        <attr name="corner_radius" format="dimension"></attr>  
+    </declare-styleable>  
+    
+    <declare-styleable name="RoundImageview">
+        <attr name="border_thickness" format="dimension"></attr>  
+        <attr name="border_outside_color" format="color"></attr>  
+        <attr name="border_inside_color" format="color"></attr>
+    </declare-styleable>
+    
+    
+    <declare-styleable name="PagerSlidingTabStrip">
+        <attr name="pstsIndicatorColor" format="color" />
+        <attr name="pstsUnderlineColor" format="color" />
+        <attr name="pstsDividerColor" format="color" />
+        <attr name="pstsIndicatorHeight" format="dimension" />
+        <attr name="pstsUnderlineHeight" format="dimension" />
+        <attr name="pstsDividerPadding" format="dimension" />
+        <attr name="pstsTabPaddingLeftRight" format="dimension" />
+        <attr name="pstsScrollOffset" format="dimension" />
+        <attr name="pstsTabBackground" format="reference" />
+        <attr name="pstsShouldExpand" format="boolean" />
+        <attr name="pstsTextAllCaps" format="boolean" />
+        <attr name="pstsSelectedTextColor" format="color"/>
+    </declare-styleable>
+    
+</resources>
