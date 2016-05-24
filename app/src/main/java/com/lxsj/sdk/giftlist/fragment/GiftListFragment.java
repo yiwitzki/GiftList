@@ -28,12 +28,13 @@ public class GiftListFragment extends DialogFragment
     private GiftListLayout rootView;
     private List<GiftItemInfo> mList;
     private int animationDrawableIndex = 0;
+    private GiftListLayout.SendGiftItf sendGiftItf;
     private final String TAG = "GiftListFragment";
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        rootView = new GiftListLayout(getActivity());
+        rootView = new GiftListLayout(getActivity(), sendGiftItf);
         rootView.setGiftView(mList);
         initImageView();
         getDialog().getWindow().requestFeature(Window.FEATURE_NO_TITLE);
@@ -61,6 +62,10 @@ public class GiftListFragment extends DialogFragment
                 }
             });
         }
+    }
+    public void setSendGiftItf(GiftListLayout.SendGiftItf sendGiftItf) {
+        this.sendGiftItf = sendGiftItf;
+
     }
     public void setGiftData(List<GiftItemInfo> listData)
     {

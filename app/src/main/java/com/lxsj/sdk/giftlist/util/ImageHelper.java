@@ -21,7 +21,7 @@ import java.net.URL;
 public class ImageHelper
 {
     public static String dirPath = Environment.getExternalStorageDirectory().getPath() + "/testPic/tp/";
-
+    private final String TAG = "ImageHelper";
     public static String getKeyFromUrl(String url) {
         String fileName = "";
         if (url.startsWith("http://") || url.startsWith("https://")) {
@@ -40,6 +40,7 @@ public class ImageHelper
         Bitmap bitmap = null;
         InputStream in = null;
         BufferedOutputStream out = null;
+        Log.d("ImageHelper", "getLocalOrNetBitmap: " + url);
         String imageFileName = getKeyFromUrl(url);
         try
         {
@@ -74,6 +75,7 @@ public class ImageHelper
         if(!dirFile.exists()){
             dirFile.mkdir();
         }
+        Log.d("ImageHelper", "saveFile: " + fileName);
         File myCaptureFile = new File(dirPath + fileName);
         BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(myCaptureFile));
         bm.compress(Bitmap.CompressFormat.JPEG, 80, bos);

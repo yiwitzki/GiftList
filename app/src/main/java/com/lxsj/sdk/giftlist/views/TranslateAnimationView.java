@@ -3,6 +3,7 @@ package com.lxsj.sdk.giftlist.views;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.animation.AlphaAnimation;
@@ -13,11 +14,10 @@ import android.view.animation.TranslateAnimation;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
 import com.lxsj.sdk.giftlist.R;
 import com.lxsj.sdk.giftlist.bean.BaseAnimationInfo;
 import com.lxsj.sdk.giftlist.bean.TranslateAnimationInfo;
-import com.lxsj.sdk.giftlist.intf.IAnimationEnd;
+import com.lxsj.sdk.giftlist.intf.RegisterAnimationDrawables;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
@@ -26,8 +26,7 @@ import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 /**
  * Created by TP on 16/5/17.
  */
-public class TranslateAnimationView extends RelativeLayout
-{
+public class TranslateAnimationView extends RelativeLayout {
     private TranslateAnimationInfo translateInfo;
     private View rootView;
     private TextView userNameTextView, giftNameTextView;
@@ -39,7 +38,6 @@ public class TranslateAnimationView extends RelativeLayout
     private int ALPHA_ANIMATION_DURATION;
     private final int ALPHA_ANIMATION_OFFSET = 3000;
     private boolean isAnimationStop = true;
-    private IAnimationEnd iAnimationEndListener = null;
     private final String TAG = "TranslateAnimationView";
 
     public TranslateAnimationView(Context context) {
@@ -60,28 +58,41 @@ public class TranslateAnimationView extends RelativeLayout
         initAnimations();
     }
 
-    public void StartAnimation(BaseAnimationInfo info) {
+    public void StartAnimation(BaseAnimationInfo info)
+    {
         this.translateInfo = (TranslateAnimationInfo) info;
+        giftImageView.setAnimationDrawables(new RegisterAnimationDrawables() {
+            @Override
+            public String[] initFavorDrawables() {
+                String imagePath[] = new String[2];
+                if (translateInfo != null && translateInfo.getImageUrl() != null) {
+                    imagePath[0] = translateInfo.getImageUrl();
+                    Log.d(TAG, "initFavorDrawables: " + imagePath[0]);
+                }
+                if (translateInfo != null && translateInfo.getImageDocPath() != null) {
+                    imagePath[1] = translateInfo.getImageDocPath();
+                }
+                return imagePath;
+            }
+        });
         setViews();
+        isAnimationStop = false;
+        executeAnimation();
     }
     public boolean isAnimationStop()
     {
         return isAnimationStop;
     }
-    public void StopAnimation() {
-        if (rootView != null)
-            rootView.clearAnimation();
-        if (giftImageView != null)
-            giftImageView.clearAnimation();
-        if (giftNumberTextView != null)
-            giftNumberTextView.clearAnimation();
-        if (giftNumberTextViewX != null)
-            giftNumberTextViewX.clearAnimation();
-        rootView.setVisibility(GONE);
-    }
+//    private void StopAnimation() {
+//        if (rootView != null)
+//            rootView.clearAnimation();
+//        if (giftImageView != null)
+//            giftImageView.clearAnimation();
+//        if (giftNumberTextView != null)
+//            giftNumberTextView.clearAnimation();
+//    }
 
-    private void executeAnimation()
-    {
+    private void executeAnimation() {
         rootView.setVisibility(View.VISIBLE);
         giftImageView.setVisibility(GONE);
         giftNumberTextView.setVisibility(GONE);
@@ -95,9 +106,7 @@ public class TranslateAnimationView extends RelativeLayout
             giftImageView.startFrameAnimation();
             scaleAnimationSet.setAnimationListener(new ZoomOutAnimationListener());
             alphaAnimation.setAnimationListener(new AlphaAnimationListener());
-        }
-        else
-        {
+        } else {
             rootView.startAnimation(translateAnimation1);
             translateAnimation1.setAnimationListener(new TranslateAnimationListener1());
             translateAnimation2.setAnimationListener(new TranslateAnimationListener2());
@@ -105,8 +114,8 @@ public class TranslateAnimationView extends RelativeLayout
             alphaAnimation.setAnimationListener(new AlphaAnimationListener());
         }
     }
-    private void initViews()
-    {
+
+    private void initViews() {
         rootView = LayoutInflater.from(getContext()).inflate(R.layout.translate_animation_layout, this, true);
         giftImageView = (AnimationDrawableImageView) rootView.findViewById(R.id.translate_animation_giftImageView);
         giftNumberTextView = (StrokeTextView) rootView.findViewById(R.id.translate_animation_giftNumber);
@@ -115,8 +124,8 @@ public class TranslateAnimationView extends RelativeLayout
         userNameTextView = (TextView) rootView.findViewById(R.id.translate_animation_userName);
         giftNameTextView = (TextView) rootView.findViewById(R.id.translate_animation_giftName);
     }
-    private void setViews()
-    {
+
+    private void setViews() {
         String numberStr = Integer.toString(translateInfo.getComboCount());
         giftNumberTextView.setText(numberStr);
         userNameTextView.setText(translateInfo.getUserName());
@@ -152,7 +161,6 @@ public class TranslateAnimationView extends RelativeLayout
 
             @Override
             public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-                executeAnimation();
             }
 
             @Override
@@ -163,13 +171,12 @@ public class TranslateAnimationView extends RelativeLayout
 
 
     }
-    private void initAnimations()
-    {
+
+    private void initAnimations() {
         translateAnimation1 = new TranslateAnimation(-800f, 0f, 0, 0);
         translateAnimation1.setDuration(500);
         translateAnimation2 = new TranslateAnimation(-800f, 0f, 0, 0);
         translateAnimation2.setDuration(500);
-
 
 
         alphaAnimation = new AlphaAnimation(1, 0);
@@ -177,12 +184,12 @@ public class TranslateAnimationView extends RelativeLayout
         alphaAnimation.setStartOffset(ALPHA_ANIMATION_OFFSET);
 
     }
-    class TranslateAnimationListener1 implements Animation.AnimationListener{
+
+    class TranslateAnimationListener1 implements Animation.AnimationListener {
 
         @Override
-        public void onAnimationStart(Animation animation)
-        {
-            isAnimationStop = true;
+        public void onAnimationStart(Animation animation) {
+
         }
 
         @Override
@@ -197,10 +204,10 @@ public class TranslateAnimationView extends RelativeLayout
         }
     }
 
-    class TranslateAnimationListener2 implements Animation.AnimationListener{
+    class TranslateAnimationListener2 implements Animation.AnimationListener {
         @Override
         public void onAnimationStart(Animation animation) {
-
+            Log.d("TAG", "TranslateAnimationListener2 START");
         }
 
         @Override
@@ -209,7 +216,9 @@ public class TranslateAnimationView extends RelativeLayout
             giftNumberTextViewX.setVisibility(VISIBLE);
             giftNumberTextView.startAnimation(scaleAnimationSet);
             giftNumberTextViewX.startAnimation(scaleAnimationSet);
+            Log.d("TAG", "startFrameAnimation BEFORE");
             giftImageView.startFrameAnimation();
+            Log.d("TAG", "startFrameAnimation AFTER");
         }
 
         @Override
@@ -217,15 +226,15 @@ public class TranslateAnimationView extends RelativeLayout
 
         }
     }
-    class ZoomOutAnimationListener implements Animation.AnimationListener{
+
+    class ZoomOutAnimationListener implements Animation.AnimationListener {
         @Override
         public void onAnimationStart(Animation animation) {
-
+            Log.d("TAG", "ZoomOutAnimationListener START");
         }
 
         @Override
-        public void onAnimationEnd(Animation animation)
-        {
+        public void onAnimationEnd(Animation animation) {
             String numberStr = String.valueOf(translateInfo.getComboCount());
             giftNumberTextView.setText(numberStr);
             rootView.startAnimation(alphaAnimation);
@@ -237,11 +246,8 @@ public class TranslateAnimationView extends RelativeLayout
 
         }
     }
-    public void setOnAnimationEnd(IAnimationEnd iAnimationEnd)
-    {
-        this.iAnimationEndListener = iAnimationEnd;
-    }
-    class AlphaAnimationListener implements Animation.AnimationListener{
+
+    class AlphaAnimationListener implements Animation.AnimationListener {
         @Override
         public void onAnimationStart(Animation animation) {
         }
@@ -250,8 +256,6 @@ public class TranslateAnimationView extends RelativeLayout
         public void onAnimationEnd(Animation animation) {
             isAnimationStop = true;
             rootView.setVisibility(GONE);
-            //iAnimationEndListener.OnAnimationEnd();
-
         }
 
         @Override

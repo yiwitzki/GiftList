@@ -56,7 +56,6 @@ public class AnimationDrawableImageView extends ImageView {
                     {
                         e.getStackTrace();
                     }
-
                 }
                 giftAnimation.setOneShot(false);
             }

@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.lxsj.sdk.giftlist.R;
 import com.lxsj.sdk.giftlist.bean.GiftItemInfo;
+import com.lxsj.sdk.giftlist.fragment.GiftListFragment;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -51,8 +52,9 @@ public class GiftListLayout extends LinearLayout {
         return pageView;
     }
 
-    public GiftListLayout(Context context) {
+    public GiftListLayout(Context context, SendGiftItf sendGiftItf) {
         super(context);
+        this.sendGiftItf = sendGiftItf;
         initViews();
     }
 
@@ -73,7 +75,10 @@ public class GiftListLayout extends LinearLayout {
         setupAdapter();
         setUpListener();
     }
-
+    public SendGiftItf sendGiftItf = null;
+    public interface SendGiftItf{
+        void sendGift(final GiftItemInfo giftItemInfo);
+    }
     public void startCount() {
         isCombo = true;
         (rootView.findViewById(R.id.tv_gift_send)).setEnabled(true);
@@ -224,8 +229,9 @@ public class GiftListLayout extends LinearLayout {
     private void doingNetwork() {
         startCount();
         lastSendGiftId = ((GiftItemInfo)currentGiftView.getTag()).getID();
-    }
 
+
+    }
     private void setUpListener() {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -253,6 +259,7 @@ public class GiftListLayout extends LinearLayout {
                     Toast.makeText(getContext(),"已发送动画",Toast.LENGTH_LONG).show();
                     unSelectGiftView(currentGiftView);
                     (rootView.findViewById(R.id.tv_gift_send)).setEnabled(false);
+                    sendGiftItf.sendGift((GiftItemInfo)currentGiftView.getTag());
                     isCombo = true;
                     count = 10;
                     doingNetwork();
