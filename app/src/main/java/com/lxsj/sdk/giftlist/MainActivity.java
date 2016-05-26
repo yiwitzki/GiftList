@@ -12,18 +12,14 @@ import com.lxsj.sdk.giftlist.bean.GiftInfo;
 import com.lxsj.sdk.giftlist.bean.GiftItemInfo;
 import com.lxsj.sdk.giftlist.bean.TranslateAnimationInfo;
 import com.lxsj.sdk.giftlist.fragment.GiftListFragment;
-import com.lxsj.sdk.giftlist.intf.IAnimationEnd;
-import com.lxsj.sdk.giftlist.intf.RegisterAnimationDrawables;
 import com.lxsj.sdk.giftlist.util.ChatEvent;
 import com.lxsj.sdk.giftlist.util.GiftDealUtils;
 import com.lxsj.sdk.giftlist.util.ImageHelper;
-import com.lxsj.sdk.giftlist.views.AnimationDrawableImageView;
 import com.lxsj.sdk.giftlist.views.GiftListLayout;
 import com.lxsj.sdk.giftlist.views.TranslateAnimationView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import java.util.ArrayDeque;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -64,7 +60,7 @@ public class MainActivity extends Activity {
         startAnimation3 = (Button) findViewById(R.id.btn_animation3);
         startAnimation4 = (Button) findViewById(R.id.btn_animation4);
         DownLoadImageAsyncTask task = new DownLoadImageAsyncTask();
-        String url = "http://pic33.nipic.com/20130906/12906030_150415017000_2.png";
+        String url = "http://i3.letvimg.com/lc05_pay/201605/26/11/49/1464234553396.png";
         task.execute(url);
 
         translateView1 = (TranslateAnimationView) findViewById(R.id.translate_animation_view1);
@@ -93,7 +89,7 @@ public class MainActivity extends Activity {
                             boolean isCombo = (combo != 0);
                             String portraitPath = "http://img3.imgtn.bdimg.com/it/u=1664575165,2716532670&fm=11&gp=0.jpg";
                             String path = Environment.getExternalStorageDirectory().getPath() + "/testPic";
-                            String url = "http://pic33.nipic.com/20130906/12906030_150415017000_2.png";
+                            String url = "http://i3.letvimg.com/lc05_pay/201605/26/11/49/1464234553396.png";
                             final TranslateAnimationInfo info1 = new TranslateAnimationInfo("tp", portraitPath, giftInfo.getCount(), 2000, isCombo, giftInfo.getTitle(), url, path);
                             if (isCombo)
                             {
@@ -318,7 +314,8 @@ public class MainActivity extends Activity {
         @Override
         protected String doInBackground(String... params) {
             Log.d(TAG, "doInBackground: " + params[0]);
-            return ImageHelper.getLocalOrNetBitmap(params[0]);
+            ImageHelper imageHelper = new ImageHelper();
+            return imageHelper.getNetBitmap(params[0]);
         }
     }
 
