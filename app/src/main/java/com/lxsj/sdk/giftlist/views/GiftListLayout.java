@@ -229,8 +229,6 @@ public class GiftListLayout extends LinearLayout {
     private void doingNetwork() {
         startCount();
         lastSendGiftId = ((GiftItemInfo)currentGiftView.getTag()).getID();
-
-
     }
     private void setUpListener() {
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -259,6 +257,10 @@ public class GiftListLayout extends LinearLayout {
                     Toast.makeText(getContext(),"已发送动画",Toast.LENGTH_LONG).show();
                     unSelectGiftView(currentGiftView);
                     (rootView.findViewById(R.id.tv_gift_send)).setEnabled(false);
+                    if (isCombo)
+                        ((GiftItemInfo)currentGiftView.getTag()).setCombo(1);
+                    else
+                        ((GiftItemInfo)currentGiftView.getTag()).setCombo(0);
                     sendGiftItf.sendGift((GiftItemInfo)currentGiftView.getTag());
                     isCombo = true;
                     count = 10;

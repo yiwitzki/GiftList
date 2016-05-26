@@ -8,6 +8,7 @@ public class GiftItemInfo
     private int ID;
     private String giftName;
     private int price;
+    private int combo = 0;
     private String imageUrl;
     private String imageDocPath;
 
@@ -37,5 +38,13 @@ public class GiftItemInfo
 
     public String getImageDocPath() {
         return imageDocPath;
+    }
+
+    public int getCombo() {
+        return combo;
+    }
+
+    public void setCombo(int combo) {
+        this.combo = combo;
     }
 }

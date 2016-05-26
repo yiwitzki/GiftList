@@ -70,6 +70,7 @@ public class AnimationDrawableImageView extends ImageView {
         {
             Drawable drawable = Drawable.createFromPath(filePath);
             setBackground(drawable);
+            drawable = null;
         }
         else
         {

@@ -69,4 +69,18 @@ public class GiftInfo
     public void setTimeMils(long timeMils) {
         this.timeMils = timeMils;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (o instanceof GiftInfo)
+        {
+            GiftInfo that = (GiftInfo) o;
+            if (this.id.equals(that.id) && this.count == that.count && this.combo == that.combo)
+                return true;
+            else
+                return false;
+        }
+        else
+            return false;
+    }
 }

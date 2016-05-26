@@ -255,7 +255,7 @@ public class TranslateAnimationView extends RelativeLayout {
         @Override
         public void onAnimationEnd(Animation animation) {
             isAnimationStop = true;
-            rootView.setVisibility(GONE);
+            rootView.setVisibility(INVISIBLE);
         }
 
         @Override

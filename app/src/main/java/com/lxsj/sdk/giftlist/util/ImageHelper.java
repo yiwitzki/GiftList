@@ -52,6 +52,8 @@ public class ImageHelper
             byte[] data = dataStream.toByteArray();
             bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
             saveFile(bitmap, imageFileName);
+            bitmap.recycle();
+            bitmap = null;
             data = null;
             return imageFileName;
         }
